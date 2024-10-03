@@ -1,0 +1,34 @@
+#!/bin/bash
+
+#############################
+# Optional: Reset Gitignore after making changes
+# git rm -r --cached .
+#############################
+
+
+dt=$(date '+%d/%m/%Y %H:%M:%S')
+BRANCH=$(git branch | sed -n -e 's/^\* \(.*\)/\1/p')
+
+
+## /brief Check if remote has changed and need to pull
+changed=0
+git remote update && git status -uno | grep -q 'Your branch is behind' && changed=1
+if [ $changed -eq 1 ]; then
+    git pull
+    echo " "
+    echo "-------Updated Remote successfully-------";
+else
+    echo " "
+    echo "-------Remote is Up-to-date-------"
+fi
+
+echo "current git branch == $BRANCH"
+echo ""
+
+git add .
+
+# git commit -m "$1"
+git commit -m "$dt ¯\_(ツ)_/¯"
+
+
+git push #-u origin "$BRANCH"
